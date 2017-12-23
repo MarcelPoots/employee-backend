@@ -21,26 +21,13 @@ CREATE TABLE IF NOT EXISTS example.users (
     fname text,
     lname text,
     uname text
-) WITH bloom_filter_fp_chance = 0.01
-    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
-    AND comment = ''
-    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
-    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
-    AND crc_check_chance = 1.0
-    AND dclocal_read_repair_chance = 0.1
-    AND default_time_to_live = 0
-    AND gc_grace_seconds = 864000
-    AND max_index_interval = 2048
-    AND memtable_flush_period_in_ms = 0
-    AND min_index_interval = 128
-    AND read_repair_chance = 0.0
-    AND speculative_retry = '99PERCENTILE';
+);
     
 CREATE INDEX IF NOT EXISTS user_username ON example.users (uname);
 CREATE CUSTOM INDEX IF NOT EXISTS users_lname_idx_1 ON example.users (lname) USING 'org.apache.cassandra.index.sasi.SASIIndex' WITH OPTIONS = {'mode': 'CONTAINS'};
 CREATE CUSTOM INDEX IF NOT EXISTS users_lname_idx ON example.users (lname) USING 'org.apache.cassandra.index.sasi.SASIIndex';
 
-
+uy
 Now you can use the very cool query:
 
 cqlsh:example> select * from users where lname like '%oot%';
@@ -49,3 +36,26 @@ cqlsh:example> select * from users where lname like '%oot%';
 ---------+--------+-------+-------
       49 | Marcel | Poots |  null
 
+CREATE TABLE IF NOT EXISTS male_first_names (
+    id uuid PRIMARY KEY,
+    name text
+);
+
+CREATE INDEX IF NOT EXISTS male_first_name ON example.male_first_names (name);
+CREATE CUSTOM INDEX IF NOT EXISTS male_first_name_contains ON example.male_first_names (name) USING 'org.apache.cassandra.index.sasi.SASIIndex' WITH OPTIONS = {'mode': 'CONTAINS'};
+
+CREATE TABLE IF NOT EXISTS female_first_names (
+    id uuid PRIMARY KEY,
+    name text
+);
+
+CREATE INDEX IF NOT EXISTS female_first_name ON example.female_first_names (name);
+CREATE CUSTOM INDEX IF NOT EXISTS female_first_name_contains ON example.female_first_names (name) USING 'org.apache.cassandra.index.sasi.SASIIndex' WITH OPTIONS = {'mode': 'CONTAINS'};
+
+CREATE TABLE IF NOT EXISTS family_names (
+    id uuid PRIMARY KEY,
+    name text
+);
+
+CREATE INDEX IF NOT EXISTS family_name ON example.family_names (name);
+CREATE CUSTOM INDEX IF NOT EXISTS family_name_contains ON example.family_names (name) USING 'org.apache.cassandra.index.sasi.SASIIndex' WITH OPTIONS = {'mode': 'CONTAINS'};

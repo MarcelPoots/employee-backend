@@ -8,8 +8,8 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import nl.rossie.employee.BasicUserRepository;
 import nl.rossie.employee.entity.Employee;
+import nl.rossie.employee.repository.BasicUserRepository;
 
 @Service
 public class EmployeeService implements IEmployeeService {

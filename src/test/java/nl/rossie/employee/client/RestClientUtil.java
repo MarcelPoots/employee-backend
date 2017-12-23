@@ -74,8 +74,43 @@ public class RestClientUtil {
         restTemplate.delete(url);      
         System.err.println(url + " (DELETE) gelukt..");
     }
+    
+    public void addMockMaleFirstNames() {
+    	HttpHeaders headers = new HttpHeaders();
+    	headers.setContentType(MediaType.APPLICATION_JSON);
+        RestTemplate restTemplate = new RestTemplate();
+	    String url = "http://localhost:8080/male_firstnames";
+        HttpEntity<String> requestEntity = new HttpEntity<String>(headers);
+        ResponseEntity<Void> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Void.class);
+        System.out.println(responseEntity.toString());        	
+    }
+  
+    public void addMockFemaleFirstNames() {
+    	HttpHeaders headers = new HttpHeaders();
+    	headers.setContentType(MediaType.APPLICATION_JSON);
+        RestTemplate restTemplate = new RestTemplate();
+	    String url = "http://localhost:8080/female_firstnames";
+        HttpEntity<String> requestEntity = new HttpEntity<String>(headers);
+        ResponseEntity<Void> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Void.class);
+        System.out.println(responseEntity.toString());        	
+    }
+    
+    public void addMockFamilyNames() {
+    	HttpHeaders headers = new HttpHeaders();
+    	headers.setContentType(MediaType.APPLICATION_JSON);
+        RestTemplate restTemplate = new RestTemplate();
+	    String url = "http://localhost:8080/family_names";
+        HttpEntity<String> requestEntity = new HttpEntity<String>(headers);
+        ResponseEntity<Void> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Void.class);
+        System.out.println(responseEntity.toString());        	
+    }    
+    
     public static void main(String args[]) {
     	RestClientUtil util = new RestClientUtil();
+    	//util.addMockMaleFirstNames();
+    	//util.addMockFemaleFirstNames();
+    	//util.addMockFamilyNames();
+    	
         util.getEmployeeByIdDemo();
     	util.getAllEmployeesDemo();
     	util.addEmployeeDemo();
