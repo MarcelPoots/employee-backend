@@ -1,5 +1,6 @@
 package nl.rossie.employee.controller;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -35,7 +36,11 @@ public class EmployeeController {
 	
 	@GetMapping("employees")
 	public ResponseEntity<List<Employee>> getAllEmployees() {
-		List<Employee> list = employeeService.getAllEmployees();
+		List<Employee> list = employeeService.getAllEmployees()
+				.stream()
+				.sorted((e1, e2) -> e1.getLastname().compareTo(e2.getLastname()))
+				.collect(Collectors.toList());
+	
 		return new ResponseEntity<List<Employee>>(list, HttpStatus.OK);
 	}
 

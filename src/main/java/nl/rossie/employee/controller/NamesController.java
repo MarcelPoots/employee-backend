@@ -3,6 +3,7 @@ package nl.rossie.employee.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -14,9 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import nl.rossie.employee.entity.Employee;
 import nl.rossie.employee.entity.FamilyName;
 import nl.rossie.employee.entity.FemaleFirstname;
 import nl.rossie.employee.entity.MaleFirstname;
+import nl.rossie.employee.repository.BasicUserRepository;
 import nl.rossie.employee.repository.FamilyNameRepository;
 import nl.rossie.employee.repository.FemaleFirstnameRepository;
 import nl.rossie.employee.repository.MaleFirstnameRepository;
@@ -32,6 +35,9 @@ public class NamesController {
 	
 	@Autowired
 	private FamilyNameRepository familyNameRepository;	
+	
+	@Autowired
+	private BasicUserRepository basicUserRepository;
 	
 	@GetMapping("male_firstnames")
 	public ResponseEntity<Void> makeMockMaleFirstNames() {
@@ -76,6 +82,33 @@ public class NamesController {
 		return new ResponseEntity<List<FamilyName>>(list, HttpStatus.OK);
 	}	
 	
+	@GetMapping("mock")
+	public ResponseEntity<Void> getMock() {
+		
+		List<FamilyName> familyNames = toList(familyNameRepository.findAll());
+		List<FemaleFirstname> femaleNames = toList(femaleFirstnameRepository.findAll());
+		List<MaleFirstname> maleNames = toList(maleFirstnameRepository.findAll());
+		String gender = "";
+		String firstname = "";
+		String lastname = "";
+
+		for (int i = 0; i < 100; i++) {
+			
+			if (i % 2 == 0) {
+				gender = "M";
+				firstname = maleNames.get(new Random().nextInt(maleNames.size())).getName();
+			}else {
+				gender = "V";
+				firstname = femaleNames.get(new Random().nextInt(femaleNames.size())).getName();
+			}
+			lastname = familyNames.get(new Random().nextInt(familyNames.size())).getName();
+			Employee employee = new Employee(Long.valueOf(i),"user-"+i, firstname, lastname, gender);
+			basicUserRepository.save(employee);
+		}
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
 	private void getMaleFirstnames() {
 		ClassLoader classLoader = getClass().getClassLoader();
 		File file = new File(classLoader.getResource("male_first_names.txt").getFile());
@@ -89,8 +122,6 @@ public class NamesController {
 			e.printStackTrace();
 		}
 	}
-
-
 
 	private void getFemaleFirstnames() {
 		ClassLoader classLoader = getClass().getClassLoader();

@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS example.users (
     user_id bigint PRIMARY KEY,
     fname text,
     lname text,
-    uname text
+    uname text,
+    gender text
 );
     
 CREATE INDEX IF NOT EXISTS user_username ON example.users (uname);

@@ -32,6 +32,7 @@ public class Employee {
 	@Column("uname") private String username;
 	@Column("fname") private String firstname;
 	@Column("lname") private String lastname;
+	@Column("gender") private String gender;
 
 	public Employee() {}
 	
@@ -39,11 +40,12 @@ public class Employee {
 		setId(id);
 	}
 
-	public Employee(Long id, String username, String firstname, String lastname) {
+	public Employee(Long id, String username, String firstname, String lastname, String gender) {
 		this.id = id;
 		this.username = username;
 		this.firstname = firstname;
 		this.lastname = lastname;
+		this.gender = gender;
 	}
 	
 	public Long getId() {
@@ -77,7 +79,14 @@ public class Employee {
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
+	
+	public String getGender() {
+		return gender;
+	}
 
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", firstname=" + firstname + ", lastname=" + lastname
