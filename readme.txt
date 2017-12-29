@@ -1,3 +1,8 @@
+This is my hobby project to see some things working. It's a Springboot backend
+that communicates with a Cassandra database. 
+
+The frontend (Angular 4) that goes along with this backend can be found at 
+-https://github.com/MarcelPoots/employee-frontend
 
 Have your Cassandra woring at:
 
