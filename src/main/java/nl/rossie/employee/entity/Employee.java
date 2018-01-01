@@ -24,7 +24,6 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@NoArgsConstructor
 @Table(value = "users")
 public class Employee {
 
